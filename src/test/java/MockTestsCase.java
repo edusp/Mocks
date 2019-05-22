@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -21,6 +22,9 @@ public class MockTestsCase {
 
     @Spy
     List<String> spiedList = new ArrayList<String>();
+
+    @Captor
+    ArgumentCaptor argCaptor;
 
     @Test
     public void whenNotUseMockAnnotation_thenCorrect() {
@@ -53,7 +57,6 @@ public class MockTestsCase {
 
 
 
-
     @Test
     public void whenNotUseCaptorAnnotation_thenCorrect() {
         List mockList = mock(List.class);
@@ -64,6 +67,17 @@ public class MockTestsCase {
 
         assertEquals("one", arg.getValue());
     }
+
+    @Test
+    public void whenUseCaptorAnnotation_thenTheSam() {
+        mockList.add("one");
+        verify(mockList).add(argCaptor.capture());
+
+        assertEquals("one", argCaptor.getValue());
+    }
+
+
+    
 
 
 }
